@@ -1,0 +1,60 @@
+package br.com.server.controller;
+
+import br.com.server.domain.format.dto.ClassFormatSerch;
+import br.com.server.domain.format.dto.ClassFormatUpdate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import br.com.server.domain.format.ClassFormat;
+import br.com.server.domain.format.ClassFormatRepository;
+import br.com.server.domain.format.dto.ClassFormatCreate;
+import br.com.server.domain.format.dto.ClassFormatData;
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/formats")
+public class ClassFormatController {
+
+	@Autowired
+	private ClassFormatRepository repository;
+	
+	@PostMapping("/create")
+	@Transactional
+	public ResponseEntity<ClassFormatData> create(@RequestBody @Valid ClassFormatCreate data, UriComponentsBuilder uriBuilder) {
+		var format = new ClassFormat(data);
+		repository.save(format);
+		
+		var uri = uriBuilder.path("/formats/{id}").buildAndExpand(format.getId()).toUri();
+		
+		return ResponseEntity.created(uri).body(new ClassFormatData(format));
+	}
+
+	@GetMapping
+	public ResponseEntity<Page<ClassFormatSerch>> findAll(@PageableDefault(size = 10)Pageable pageable) {
+		var list = repository.findAll(pageable).map(ClassFormatSerch::new);
+
+		return ResponseEntity.ok(list);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ClassFormatSerch> findById(@PathVariable Long id) {
+		var format = repository.getReferenceById(id);
+
+		return ResponseEntity.ok(new ClassFormatSerch(format));
+	}
+
+	@PutMapping("/{id}")
+	@Transactional
+	public ResponseEntity<ClassFormatData> update(@PathVariable Long id, @RequestBody @Valid ClassFormatUpdate data) {
+		var format = repository.getReferenceById(id);
+		format.update(data);
+
+		return ResponseEntity.ok(new ClassFormatData(format));
+	}
+}
