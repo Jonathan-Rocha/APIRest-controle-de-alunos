@@ -1,6 +1,5 @@
 package br.com.server.controller;
 
-import br.com.server.domain.instrument.dto.InstrumentSearch;
 import br.com.server.domain.instrument.dto.InstrumentUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,17 +35,17 @@ public class InstrumentController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<InstrumentSearch>> findAll(@PageableDefault(size = 10)Pageable pageable) {
-		var list = repository.findAll(pageable).map(InstrumentSearch::new);
+	public ResponseEntity<Page<InstrumentData>> findAll(@PageableDefault(size = 10)Pageable pageable) {
+		var list = repository.findAll(pageable).map(InstrumentData::new);
 
 		return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<InstrumentSearch> findById(@PathVariable Long id) {
+	public ResponseEntity<InstrumentData> findById(@PathVariable Long id) {
 		var instrument = repository.getReferenceById(id);
 
-		return ResponseEntity.ok(new InstrumentSearch(instrument));
+		return ResponseEntity.ok(new InstrumentData(instrument));
 	}
 
 	@PutMapping("/{id}")

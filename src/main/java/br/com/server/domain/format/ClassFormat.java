@@ -4,12 +4,8 @@ import java.math.BigDecimal;
 
 import br.com.server.domain.format.dto.ClassFormatCreate;
 import br.com.server.domain.format.dto.ClassFormatUpdate;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.server.domain.user.User;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,16 +24,18 @@ public class ClassFormat {
 		this.modality = data.modality();
 		this.timeMinutes = data.timeMinutes();
 		this.price = data.price();
+		this.user = data.user();
 	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String modality;
-	
 	@Column(name = "time_minutes")
 	private String timeMinutes;
 	private BigDecimal price;
+	@ManyToOne
+	private User user;
 
 	public void update(@Valid ClassFormatUpdate data) {
 		if(data.modality() != null) {
@@ -48,6 +46,9 @@ public class ClassFormat {
 		}
 		if(data.price() != null) {
 			this.price = data.price();
+		}
+		if (data.user() != null) {
+			this.user = data.user();
 		}
 	}
 }

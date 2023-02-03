@@ -1,6 +1,5 @@
 package br.com.server.controller;
 
-import br.com.server.domain.format.dto.ClassFormatSerch;
 import br.com.server.domain.format.dto.ClassFormatUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,17 +35,17 @@ public class ClassFormatController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<ClassFormatSerch>> findAll(@PageableDefault(size = 10)Pageable pageable) {
-		var list = repository.findAll(pageable).map(ClassFormatSerch::new);
+	public ResponseEntity<Page<ClassFormatData>> findAll(@PageableDefault(size = 10)Pageable pageable) {
+		var list = repository.findAll(pageable).map(ClassFormatData::new);
 
 		return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ClassFormatSerch> findById(@PathVariable Long id) {
+	public ResponseEntity<ClassFormatData> findById(@PathVariable Long id) {
 		var format = repository.getReferenceById(id);
 
-		return ResponseEntity.ok(new ClassFormatSerch(format));
+		return ResponseEntity.ok(new ClassFormatData(format));
 	}
 
 	@PutMapping("/{id}")

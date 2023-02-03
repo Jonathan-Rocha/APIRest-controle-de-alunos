@@ -4,7 +4,6 @@ import br.com.server.domain.student.Student;
 import br.com.server.domain.student.StudentRepository;
 import br.com.server.domain.student.dto.StudentCreate;
 import br.com.server.domain.student.dto.StudentData;
-import br.com.server.domain.student.dto.StudentSearch;
 import br.com.server.domain.student.dto.StudentUpdate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,17 +35,17 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<StudentSearch>> findAll(@PageableDefault Pageable pageable){
-        var list = repository.findAll(pageable).map(StudentSearch::new);
+    public ResponseEntity<Page<StudentData>> findAll(@PageableDefault Pageable pageable){
+        var list = repository.findAll(pageable).map(StudentData::new);
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentSearch> findById(@PathVariable Long id) {
+    public ResponseEntity<StudentData> findById(@PathVariable Long id) {
         var student = repository.getReferenceById(id);
 
-        return ResponseEntity.ok(new StudentSearch(student));
+        return ResponseEntity.ok(new StudentData(student));
     }
 
     @PutMapping("/{id}")

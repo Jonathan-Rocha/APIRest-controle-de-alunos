@@ -4,6 +4,7 @@ import br.com.server.domain.format.ClassFormat;
 import br.com.server.domain.instrument.Instrument;
 import br.com.server.domain.student.dto.StudentUpdate;
 import br.com.server.domain.student.dto.StudentCreate;
+import br.com.server.domain.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class Student {
         this.name = data.name();
         this.instrument = data.instrument();
         this.classFormat = data.classFormat();
+        this.user = data.user();
     }
 
     @Id
@@ -37,6 +39,9 @@ public class Student {
     @ManyToOne
     private ClassFormat classFormat;
 
+    @ManyToOne
+    private User user;
+
     public void update(@Valid StudentUpdate data) {
         if (data.name() != null) {
             this.name = data.name();
@@ -46,6 +51,9 @@ public class Student {
         }
         if (data.classFormat() != null) {
             this.classFormat = data.classFormat();
+        }
+        if (data.user() != null) {
+            this.user = data.user();
         }
     }
 }
