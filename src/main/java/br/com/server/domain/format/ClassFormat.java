@@ -34,7 +34,8 @@ public class ClassFormat {
 	@Column(name = "time_minutes")
 	private String timeMinutes;
 	private BigDecimal price;
-	@ManyToOne
+	@ManyToOne()
+	@Transient
 	private User user;
 
 	public void update(@Valid ClassFormatUpdate data) {
