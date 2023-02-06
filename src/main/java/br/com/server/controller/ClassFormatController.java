@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +56,14 @@ public class ClassFormatController {
 		format.update(data);
 
 		return ResponseEntity.ok(new ClassFormatData(format));
+	}
+
+	@DeleteMapping("{id}")
+	@Transactional
+	public ResponseEntity<HttpStatusCode> delete(@PathVariable Long id) {
+		var format = repository.getReferenceById(id);
+		repository.delete(format);
+
+		return ResponseEntity.noContent().build();
 	}
 }
