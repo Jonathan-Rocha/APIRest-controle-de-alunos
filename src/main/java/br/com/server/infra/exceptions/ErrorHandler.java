@@ -1,25 +1,38 @@
 package br.com.server.infra.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+
 @RestControllerAdvice
 public class ErrorHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity handle404Error() {
+    public ResponseEntity<HttpStatusCode> handle404Error() {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity handle400Error(MethodArgumentNotValidException exception) {
+    public ResponseEntity<List<ValidationErrorsData>> handle400Error(MethodArgumentNotValidException exception) {
         var errors = exception.getFieldErrors();
 
         return ResponseEntity.badRequest().body(errors.stream().map(ValidationErrorsData::new).toList());
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ValidationErrorsData> handleSQLError(SQLIntegrityConstraintViolationException exception) {
+        String objectName = exception.getClass().getName();
+        var fieldError = new FieldError(objectName, "students", "Unable to delete as there are still related students");
+        var validationError = new ValidationErrorsData(fieldError);
+
+        return ResponseEntity.badRequest().body(validationError);
     }
 
     private record ValidationErrorsData (
