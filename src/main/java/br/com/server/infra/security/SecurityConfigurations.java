@@ -14,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +24,9 @@ public class SecurityConfigurations {
 
   @Autowired
   private SecurityFilter securityFilter;
+
+  private final CorsConfiguration configuration = new CorsConfiguration();
+  private final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,6 +37,13 @@ public class SecurityConfigurations {
             .anyRequest().authenticated()
             .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
+  }
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    configuration.applyPermitDefaultValues();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
   }
 
   @Bean
