@@ -40,7 +40,6 @@ public class Student {
     private ClassFormat classFormat;
 
     @ManyToOne
-    @Transient
     private User user;
 
     public void update(@Valid StudentUpdate data) {

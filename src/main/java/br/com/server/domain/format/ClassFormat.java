@@ -33,7 +33,6 @@ public class ClassFormat {
 	private Integer timeMinutes;
 	private Integer price;
 	@ManyToOne()
-	@Transient
 	private User user;
 
 	public void update(@Valid ClassFormatUpdate data) {
