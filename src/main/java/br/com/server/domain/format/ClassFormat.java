@@ -1,7 +1,5 @@
 package br.com.server.domain.format;
 
-import java.math.BigDecimal;
-
 import br.com.server.domain.format.dto.ClassFormatCreate;
 import br.com.server.domain.format.dto.ClassFormatUpdate;
 import br.com.server.domain.user.User;
@@ -32,8 +30,8 @@ public class ClassFormat {
 	private Long id;
 	private String modality;
 	@Column(name = "time_minutes")
-	private String timeMinutes;
-	private BigDecimal price;
+	private Integer timeMinutes;
+	private Integer price;
 	@ManyToOne()
 	@Transient
 	private User user;
