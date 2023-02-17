@@ -1,10 +1,10 @@
 create table students(
 	
-	id bigint not null auto_increment,
+	id bigint unsigned not null auto_increment,
 	name varchar(100) not null,
-	instrument_id bigint not null,
-	class_format_id bigint not null,
-	user_id bigint not null,
+	instrument_id bigint unsigned not null,
+	class_format_id bigint unsigned not null,
+	user_id bigint unsigned not null,
 	
 	primary key (id),
 	foreign key (instrument_id) references instruments(id),
