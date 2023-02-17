@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.1</version>
+		<version>3.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com</groupId>
-	<artifactId>server</artifactId>
+	<artifactId>server-aulas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>server</name>
 	<description>Demo project for Spring Boot</description>
@@ -91,7 +91,7 @@
 			<version>4.2.2</version>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
