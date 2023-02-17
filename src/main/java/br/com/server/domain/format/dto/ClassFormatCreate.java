@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 public record ClassFormatCreate(
 		@NotBlank
 		String modality,
-		@NotBlank
+		@NotNull
 		Integer timeMinutes,
 		@NotNull
 		Integer price,
