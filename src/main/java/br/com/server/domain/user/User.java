@@ -2,6 +2,7 @@ package br.com.server.domain.user;
 
 import br.com.server.domain.user.dto.UserCreate;
 import br.com.server.domain.user.dto.UserUpdate;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,9 @@ public class User implements UserDetails {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String email;
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
   public void update(@Valid UserUpdate data) {
