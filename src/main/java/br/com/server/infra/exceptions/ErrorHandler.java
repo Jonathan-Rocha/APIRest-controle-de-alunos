@@ -7,8 +7,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @RestControllerAdvice
@@ -24,11 +22,6 @@ public class ErrorHandler {
         var errors = exception.getFieldErrors();
 
         return ResponseEntity.badRequest().body(errors.stream().map(ValidationErrorsData::new).toList());
-    }
-
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity handleSQLError(SQLIntegrityConstraintViolationException exception) {
-        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
     private record ValidationErrorsData (
