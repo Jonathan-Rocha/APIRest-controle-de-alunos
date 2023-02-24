@@ -2,6 +2,7 @@ create table students(
 	
 	id bigint unsigned not null auto_increment,
 	name varchar(100) not null,
+	days_of_week tinyint unsigned not null,
 	instrument_id bigint unsigned not null,
 	class_format_id bigint unsigned not null,
 	user_id bigint unsigned not null,

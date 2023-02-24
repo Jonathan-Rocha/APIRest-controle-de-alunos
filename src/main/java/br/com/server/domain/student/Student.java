@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.DayOfWeek;
+
 @Table(name = "students")
 @Entity(name = "Students")
 @Getter
@@ -22,6 +24,7 @@ public class Student {
 
     public Student(@Valid StudentCreate data) {
         this.name = data.name();
+        this.daysOfWeek = data.daysOfWeek();
         this.instrument = data.instrument();
         this.classFormat = data.classFormat();
         this.user = data.user();
@@ -32,6 +35,10 @@ public class Student {
     private Long id;
 
     private String name;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "days_of_week")
+    private DayOfWeek daysOfWeek;
 
     @ManyToOne
     private Instrument instrument;
@@ -45,6 +52,9 @@ public class Student {
     public void update(@Valid StudentUpdate data) {
         if (data.name() != null) {
             this.name = data.name();
+        }
+        if (data.daysOfWeek() != null) {
+            this.daysOfWeek = data.daysOfWeek();
         }
         if (data.instrument() != null) {
             this.instrument = data.instrument();

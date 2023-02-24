@@ -6,9 +6,13 @@ import br.com.server.domain.user.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.DayOfWeek;
+
 public record StudentCreate(
         @NotBlank
         String name,
+        @NotNull
+        DayOfWeek daysOfWeek,
         @NotNull
         Instrument instrument,
         @NotNull
