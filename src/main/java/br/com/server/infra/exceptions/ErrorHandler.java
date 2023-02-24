@@ -27,12 +27,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ValidationErrorsData> handleSQLError(SQLIntegrityConstraintViolationException exception) {
-        String objectName = exception.getClass().getName();
-        var fieldError = new FieldError(objectName, "students", "Unable to delete as there are still related students");
-        var validationError = new ValidationErrorsData(fieldError);
-
-        return ResponseEntity.badRequest().body(validationError);
+    public ResponseEntity handleSQLError(SQLIntegrityConstraintViolationException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
     private record ValidationErrorsData (
