@@ -52,8 +52,5 @@ public class Student {
         if (data.classFormat() != null) {
             this.classFormat = data.classFormat();
         }
-        if (data.user() != null) {
-            this.user = data.user();
-        }
     }
 }

@@ -32,7 +32,7 @@ public class ClassFormat {
 	@Column(name = "time_minutes")
 	private Integer timeMinutes;
 	private Integer price;
-	@ManyToOne()
+	@ManyToOne
 	private User user;
 
 	public void update(@Valid ClassFormatUpdate data) {
@@ -44,9 +44,6 @@ public class ClassFormat {
 		}
 		if(data.price() != null) {
 			this.price = data.price();
-		}
-		if (data.user() != null) {
-			this.user = data.user();
 		}
 	}
 }
