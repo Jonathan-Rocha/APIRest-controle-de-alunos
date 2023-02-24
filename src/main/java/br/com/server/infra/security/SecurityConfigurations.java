@@ -30,8 +30,8 @@ public class SecurityConfigurations {
     return httpSecurity.cors().configurationSource(request -> configuration.applyPermitDefaultValues())
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/login").permitAll()
-            .and().authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/users/create").permitAll()
+            .and().authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/login", "/users/create").permitAll()
+            .and().authorizeHttpRequests().requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs**").permitAll()
             .anyRequest().authenticated()
             .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();

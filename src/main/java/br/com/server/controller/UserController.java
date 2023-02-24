@@ -6,6 +6,7 @@ import br.com.server.domain.user.dto.UserCreate;
 import br.com.server.domain.user.dto.UserData;
 import br.com.server.domain.user.dto.UserSearch;
 import br.com.server.domain.user.dto.UserUpdate;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -33,6 +34,7 @@ public class UserController {
   }
 
   @GetMapping("{id}")
+  @SecurityRequirement(name = "bearer-key")
   public ResponseEntity<UserSearch> findById(@PathVariable Long id) {
     var user = repository.getReferenceById(id);
 
@@ -41,6 +43,7 @@ public class UserController {
 
   @PutMapping("{id}")
   @Transactional
+  @SecurityRequirement(name = "bearer-key")
   public ResponseEntity<HttpStatusCode> update(@PathVariable Long id, @RequestBody @Valid UserUpdate data) {
     var user = repository.getReferenceById(id);
     user.update(data);

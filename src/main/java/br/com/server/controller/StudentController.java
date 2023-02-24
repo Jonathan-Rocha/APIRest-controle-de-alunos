@@ -5,6 +5,7 @@ import br.com.server.domain.student.StudentRepository;
 import br.com.server.domain.student.dto.StudentCreate;
 import br.com.server.domain.student.dto.StudentData;
 import br.com.server.domain.student.dto.StudentUpdate;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/students")
+@SecurityRequirement(name = "bearer-key")
 public class StudentController {
 
     @Autowired
