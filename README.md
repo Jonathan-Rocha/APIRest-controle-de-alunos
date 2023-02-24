@@ -1,5 +1,5 @@
 ## Sobre o projeto
-Este projeto pessoal foi pensado para ajudar no controle das minhas aulas de música. Para isso, desenvolvi uma API Rest para cadastrar os formatos de aulas e seus valores, cadastrar meu alunos e também cadastrar os instrumentos e os relacionando.
+Este projeto pessoal foi pensado para me auxiliar no controle das minhas aulas de música. Para isso, desenvolvi uma API Rest para cadastrar os formatos de aulas e seus valores, cadastrar meus alunos e também os instrumentos.
 
 ---
 
@@ -12,7 +12,7 @@ Este projeto pessoal foi pensado para ajudar no controle das minhas aulas de mú
 
 ## Documentação
 
-O projeto está configurado para rodar na porta 8081 mas pode ser alterado seguindo os passos:
+#### O projeto está configurado para rodar na porta 8081 mas pode ser alterado seguindo os passos:
 
 * Acessar a pasta resource
 * Abrir o aquivo application.properties
@@ -22,17 +22,17 @@ O projeto está configurado para rodar na porta 8081 mas pode ser alterado segui
 server.port=custom-port
 ````
 
-O Projeto pode ser rodado utilizando alguma IDE através da classe "ServerApplication", ou pelo comando:
+#### O Projeto pode ser rodado utilizando alguma IDE através da classe "ServerApplication", ou pelo comando:
 
 ````
 mvn spring-boot:run
 ````
-A documentação das funcionalidades da aplicação pode ser acessada neste link:
+#### A documentação das funcionalidades da aplicação pode ser acessada neste link:
 
 ```
 https://server:port/swagger-ui/index.html
 ```
-Na barra 'Explore' procure por:
+#### Na barra 'Explore' procure por:
 
 ````
 /v3/api-docs
