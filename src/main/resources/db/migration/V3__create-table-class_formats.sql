@@ -7,6 +7,6 @@ create table class_formats(
 	user_id bigint unsigned not null,
 	
 	primary key(id),
-    foreign key (user_id) references users(id)
+    constraint fk_class_formats_user_id foreign key (user_id) references users(id)
 	
 );
