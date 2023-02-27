@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -23,12 +22,9 @@ public class SecurityConfigurations {
   @Autowired
   private SecurityFilter securityFilter;
 
-  private final CorsConfiguration configuration = new CorsConfiguration();
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    return httpSecurity.cors().configurationSource(request -> configuration.applyPermitDefaultValues())
-            .and().csrf().disable()
+    return httpSecurity.cors().disable().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/login", "/users/create").permitAll()
             .and().authorizeHttpRequests().requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs**").permitAll()
