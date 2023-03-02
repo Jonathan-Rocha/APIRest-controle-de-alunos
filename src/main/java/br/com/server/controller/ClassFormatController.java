@@ -38,8 +38,8 @@ public class ClassFormatController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<ClassFormatData>> findAll(@PageableDefault(size = 10)Pageable pageable) {
-		var list = repository.findAll(pageable).map(ClassFormatData::new);
+	public ResponseEntity<Page<ClassFormatData>> findAll(@PageableDefault Pageable pageable, @RequestBody @Valid ClassFormatData data) {
+		var list = repository.findAllByUserId(pageable, data.user().getId()).map(ClassFormatData::new);
 
 		return ResponseEntity.ok(list);
 	}

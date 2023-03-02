@@ -37,8 +37,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<StudentData>> findAll(@PageableDefault Pageable pageable){
-        var list = repository.findAll(pageable).map(StudentData::new);
+    public ResponseEntity<Page<StudentData>> findAll(@PageableDefault Pageable pageable, @RequestBody @Valid StudentData data){
+        var list = repository.findAllByUserId(pageable, data.user().getId()).map(StudentData::new);
 
         return ResponseEntity.ok(list);
     }
