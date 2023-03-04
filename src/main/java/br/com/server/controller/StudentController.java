@@ -1,10 +1,13 @@
 package br.com.server.controller;
 
+import br.com.server.domain.format.ClassFormatRepository;
+import br.com.server.domain.instrument.InstrumentRepository;
 import br.com.server.domain.student.Student;
 import br.com.server.domain.student.StudentRepository;
 import br.com.server.domain.student.dto.StudentCreate;
 import br.com.server.domain.student.dto.StudentData;
 import br.com.server.domain.student.dto.StudentUpdate;
+import br.com.server.domain.user.UserRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +27,21 @@ public class StudentController {
 
     @Autowired
     private StudentRepository repository;
+    @Autowired
+    private InstrumentRepository instrumentRepository;
+    @Autowired
+    private ClassFormatRepository classFormatRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<StudentData> create(@RequestBody @Valid StudentCreate data, UriComponentsBuilder uriBuilder) {
-        var student = new Student(data);
+        var instrument = instrumentRepository.getReferenceById(data.instrumentId());
+        var classFormat = classFormatRepository.getReferenceById(data.classFormatId());
+        var user = userRepository.getReferenceById(data.userId());
+        var student = new Student(null, data.name(), data.daysOfWeek(), instrument, classFormat, user);
         repository.save(student);
 
         var uri = uriBuilder.path("/students/{id}").buildAndExpand(student.getId()).toUri();
@@ -38,7 +51,7 @@ public class StudentController {
 
     @GetMapping("/user")
     public ResponseEntity<Page<StudentData>> findAll(@PageableDefault Pageable pageable, @RequestParam @Valid Long id) {
-        var user = repository.getReferenceById(id);
+        var user = userRepository.getReferenceById(id);
         var list = repository.findAllByUserId(pageable, user.getId()).map(StudentData::new);
 
         return ResponseEntity.ok(list);
@@ -55,7 +68,21 @@ public class StudentController {
     @Transactional
     public ResponseEntity<StudentData> update(@PathVariable Long id, @RequestBody @Valid StudentUpdate data) {
         var student = repository.getReferenceById(id);
-        student.update(data);
+
+        if (data.name() != null) {
+            student.setName(data.name());
+        }
+        if (data.daysOfWeek() != null) {
+            student.setDaysOfWeek(data.daysOfWeek());
+        }
+        if (data.instrumentId() != null) {
+            var instrument = instrumentRepository.getReferenceById(data.instrumentId());
+            student.setInstrument(instrument);
+        }
+        if (data.classFormatId() != null) {
+            var format = classFormatRepository.getReferenceById(data.classFormatId());
+            student.setClassFormat(format);
+        }
 
         return ResponseEntity.ok(new StudentData(student));
     }
