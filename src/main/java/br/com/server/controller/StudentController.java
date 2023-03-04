@@ -36,9 +36,10 @@ public class StudentController {
         return ResponseEntity.created(uri).body(new StudentData(student));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<StudentData>> findAll(@PageableDefault Pageable pageable, @RequestBody @Valid StudentData data){
-        var list = repository.findAllByUserId(pageable, data.user().getId()).map(StudentData::new);
+    @GetMapping("/user")
+    public ResponseEntity<Page<StudentData>> findAll(@PageableDefault Pageable pageable, @RequestParam @Valid Long id) {
+        var user = repository.getReferenceById(id);
+        var list = repository.findAllByUserId(pageable, user.getId()).map(StudentData::new);
 
         return ResponseEntity.ok(list);
     }

@@ -37,9 +37,10 @@ public class ClassFormatController {
 		return ResponseEntity.created(uri).body(new ClassFormatData(format));
 	}
 
-	@GetMapping
-	public ResponseEntity<Page<ClassFormatData>> findAll(@PageableDefault Pageable pageable, @RequestBody @Valid ClassFormatData data) {
-		var list = repository.findAllByUserId(pageable, data.user().getId()).map(ClassFormatData::new);
+	@GetMapping("/user")
+	public ResponseEntity<Page<ClassFormatData>> findAll(@PageableDefault Pageable pageable, @RequestParam @Valid Long id) {
+		var user = repository.getReferenceById(id);
+		var list = repository.findAllByUserId(pageable, user.getId()).map(ClassFormatData::new);
 
 		return ResponseEntity.ok(list);
 	}
