@@ -4,14 +4,12 @@ import br.com.server.domain.user.User;
 
 public record UserSearch(
         Long id,
-        String name,
-        String email
+        String name
 ) {
   public UserSearch(User user) {
     this(
             user.getId(),
-            user.getName(),
-            user.getEmail()
+            user.getName()
     );
   }
 }
