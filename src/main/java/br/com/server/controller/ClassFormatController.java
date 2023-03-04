@@ -1,6 +1,8 @@
 package br.com.server.controller;
 
 import br.com.server.domain.format.dto.ClassFormatUpdate;
+import br.com.server.domain.user.UserRepository;
+import br.com.server.domain.user.dto.UserSearch;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,11 +27,15 @@ public class ClassFormatController {
 
 	@Autowired
 	private ClassFormatRepository repository;
+
+	@Autowired
+	private UserRepository userRepository;
 	
 	@PostMapping("/create")
 	@Transactional
 	public ResponseEntity<ClassFormatData> create(@RequestBody @Valid ClassFormatCreate data, UriComponentsBuilder uriBuilder) {
-		var format = new ClassFormat(data);
+		var user = userRepository.getReferenceById(data.userId());
+		var format = new ClassFormat(null, data.modality(), data.timeMinutes(), data.price(), user);
 		repository.save(format);
 		
 		var uri = uriBuilder.path("/formats/{id}").buildAndExpand(format.getId()).toUri();
@@ -39,7 +45,7 @@ public class ClassFormatController {
 
 	@GetMapping("/user")
 	public ResponseEntity<Page<ClassFormatData>> findAll(@PageableDefault Pageable pageable, @RequestParam @Valid Long id) {
-		var user = repository.getReferenceById(id);
+		var user = userRepository.getReferenceById(id);
 		var list = repository.findAllByUserId(pageable, user.getId()).map(ClassFormatData::new);
 
 		return ResponseEntity.ok(list);

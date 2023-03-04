@@ -1,6 +1,5 @@
 package br.com.server.domain.format.dto;
 
-import br.com.server.domain.user.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,6 +11,6 @@ public record ClassFormatCreate(
 		@NotNull
 		Integer price,
 		@NotNull
-		User user
+		Long userId
 ) {
 }
