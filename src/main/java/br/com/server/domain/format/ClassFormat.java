@@ -1,6 +1,5 @@
 package br.com.server.domain.format;
 
-import br.com.server.domain.format.dto.ClassFormatCreate;
 import br.com.server.domain.format.dto.ClassFormatUpdate;
 import br.com.server.domain.user.User;
 import jakarta.persistence.*;
@@ -18,13 +17,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 public class ClassFormat {
 
-	public ClassFormat(@Valid ClassFormatCreate data) {
-		this.modality = data.modality();
-		this.timeMinutes = data.timeMinutes();
-		this.price = data.price();
-		this.user = data.user();
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -32,7 +24,7 @@ public class ClassFormat {
 	@Column(name = "time_minutes")
 	private Integer timeMinutes;
 	private Integer price;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 
 	public void update(@Valid ClassFormatUpdate data) {
