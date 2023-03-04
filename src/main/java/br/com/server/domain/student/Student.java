@@ -2,33 +2,20 @@ package br.com.server.domain.student;
 
 import br.com.server.domain.format.ClassFormat;
 import br.com.server.domain.instrument.Instrument;
-import br.com.server.domain.student.dto.StudentUpdate;
-import br.com.server.domain.student.dto.StudentCreate;
 import br.com.server.domain.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.DayOfWeek;
 
 @Table(name = "students")
 @Entity(name = "Students")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Student {
-
-    public Student(@Valid StudentCreate data) {
-        this.name = data.name();
-        this.daysOfWeek = data.daysOfWeek();
-        this.instrument = data.instrument();
-        this.classFormat = data.classFormat();
-        this.user = data.user();
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,27 +27,13 @@ public class Student {
     @Column(name = "days_of_week")
     private DayOfWeek daysOfWeek;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Instrument instrument;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ClassFormat classFormat;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public void update(@Valid StudentUpdate data) {
-        if (data.name() != null) {
-            this.name = data.name();
-        }
-        if (data.daysOfWeek() != null) {
-            this.daysOfWeek = data.daysOfWeek();
-        }
-        if (data.instrument() != null) {
-            this.instrument = data.instrument();
-        }
-        if (data.classFormat() != null) {
-            this.classFormat = data.classFormat();
-        }
-    }
 }
