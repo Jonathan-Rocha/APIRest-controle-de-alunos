@@ -4,7 +4,6 @@ import br.com.server.domain.user.User;
 import br.com.server.domain.user.UserRepository;
 import br.com.server.domain.user.dto.UserCreate;
 import br.com.server.domain.user.dto.UserData;
-import br.com.server.domain.user.dto.UserSearch;
 import br.com.server.domain.user.dto.UserUpdate;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -35,10 +34,10 @@ public class UserController {
 
   @GetMapping("{id}")
   @SecurityRequirement(name = "bearer-key")
-  public ResponseEntity<UserSearch> findById(@PathVariable Long id) {
+  public ResponseEntity<UserData> findById(@PathVariable Long id) {
     var user = repository.getReferenceById(id);
 
-    return ResponseEntity.ok(new UserSearch(user));
+    return ResponseEntity.ok(new UserData(user));
   }
 
   @PutMapping("{id}")
