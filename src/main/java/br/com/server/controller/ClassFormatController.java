@@ -2,7 +2,6 @@ package br.com.server.controller;
 
 import br.com.server.domain.format.dto.ClassFormatUpdate;
 import br.com.server.domain.user.UserRepository;
-import br.com.server.domain.user.dto.UserSearch;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
