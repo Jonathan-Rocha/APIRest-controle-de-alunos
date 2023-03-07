@@ -28,12 +28,15 @@ public class Student {
     private DayOfWeek daysOfWeek;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instrument_id")
     private Instrument instrument;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_format_id")
     private ClassFormat classFormat;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

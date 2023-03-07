@@ -2,6 +2,7 @@ package br.com.server.domain.format;
 
 import br.com.server.domain.format.dto.ClassFormatUpdate;
 import br.com.server.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,8 @@ public class ClassFormat {
 	private Integer timeMinutes;
 	private Integer price;
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	@JsonIgnoreProperties(value = {"enabled", "username", "authorities", "accountNonExpired", "credentialsNonExpired", "accountNonLocked", "hibernateLazyInitializer"})
 	private User user;
 
 	public void update(@Valid ClassFormatUpdate data) {
