@@ -1,18 +1,14 @@
 package br.com.server.domain.format;
 
-import br.com.server.domain.format.dto.ClassFormatUpdate;
 import br.com.server.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "class_formats")
 @Entity(name = "ClassFormat")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -30,15 +26,4 @@ public class ClassFormat {
 	@JsonIgnoreProperties(value = {"enabled", "username", "authorities", "accountNonExpired", "credentialsNonExpired", "accountNonLocked", "hibernateLazyInitializer"})
 	private User user;
 
-	public void update(@Valid ClassFormatUpdate data) {
-		if(data.modality() != null) {
-			this.modality = data.modality();
-		}
-		if(data.timeMinutes() != null) {
-			this.timeMinutes = data.timeMinutes();
-		}
-		if(data.price() != null) {
-			this.price = data.price();
-		}
-	}
 }
