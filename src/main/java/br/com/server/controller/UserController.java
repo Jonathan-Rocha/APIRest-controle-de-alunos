@@ -19,13 +19,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserController {
 
   @Autowired
-  private UserRepository repository;
+  private UserRepository userRepository;
 
   @PostMapping("/create")
   @Transactional
   public ResponseEntity<UserData> create(@RequestBody @Valid UserCreate data, UriComponentsBuilder uriBuilder) {
     var user = new User(data);
-    repository.save(user);
+    userRepository.save(user);
 
     var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
 
@@ -35,7 +35,7 @@ public class UserController {
   @GetMapping("{id}")
   @SecurityRequirement(name = "bearer-key")
   public ResponseEntity<UserData> findById(@PathVariable Long id) {
-    var user = repository.getReferenceById(id);
+    var user = userRepository.getReferenceById(id);
 
     return ResponseEntity.ok(new UserData(user));
   }
@@ -44,7 +44,7 @@ public class UserController {
   @Transactional
   @SecurityRequirement(name = "bearer-key")
   public ResponseEntity<HttpStatusCode> update(@PathVariable Long id, @RequestBody @Valid UserUpdate data) {
-    var user = repository.getReferenceById(id);
+    var user = userRepository.getReferenceById(id);
     user.update(data);
 
     return ResponseEntity.ok().build();

@@ -23,13 +23,13 @@ import jakarta.validation.Valid;
 public class InstrumentController {
 
 	@Autowired
-	private InstrumentRepository repository;
+	private InstrumentRepository instrumentRepository;
 	
 	@PostMapping("/create")
 	@Transactional
 	public ResponseEntity<InstrumentData> create(@RequestBody @Valid InstrumentCreate data, UriComponentsBuilder uriBuilder){
 		var instrument = new Instrument(data);
-		repository.save(instrument);
+		instrumentRepository.save(instrument);
 		
 		var uri = uriBuilder.path("/instruments/{id}").buildAndExpand(instrument.getId()).toUri();
 		
@@ -37,15 +37,15 @@ public class InstrumentController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<InstrumentData>> findAll(@PageableDefault(size = 10)Pageable pageable) {
-		var list = repository.findAll(pageable).map(InstrumentData::new);
+	public ResponseEntity<Page<InstrumentData>> findAll(@PageableDefault Pageable pageable) {
+		var list = instrumentRepository.findAll(pageable).map(InstrumentData::new);
 
 		return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<InstrumentData> findById(@PathVariable Long id) {
-		var instrument = repository.getReferenceById(id);
+		var instrument = instrumentRepository.getReferenceById(id);
 
 		return ResponseEntity.ok(new InstrumentData(instrument));
 	}
@@ -53,7 +53,7 @@ public class InstrumentController {
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<InstrumentData> update(@PathVariable Long id, @RequestBody @Valid InstrumentUpdate data) {
-		var instrument = repository.getReferenceById(id);
+		var instrument = instrumentRepository.getReferenceById(id);
 		instrument.update(data);
 
 		return ResponseEntity.ok(new InstrumentData(instrument));
