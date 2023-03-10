@@ -1,14 +1,9 @@
 package br.com.server.domain.user;
 
 import br.com.server.domain.user.dto.UserCreate;
-import br.com.server.domain.user.dto.UserUpdate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +15,7 @@ import java.util.List;
 @Table(name = "users")
 @Entity(name = "Users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -40,16 +36,7 @@ public class User implements UserDetails {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
-  public void update(@Valid UserUpdate data) {
-    if (data.name() != null) {
-      this.name = data.name();
-    }
-    if (data.password() != null) {
-      this.password = bCrypt(data.password());
-    }
-  }
-
-  private String bCrypt(String password) {
+  public String bCrypt(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt(12));
   }
 

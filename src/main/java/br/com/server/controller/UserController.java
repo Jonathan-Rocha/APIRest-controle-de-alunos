@@ -1,10 +1,9 @@
 package br.com.server.controller;
 
-import br.com.server.domain.user.User;
-import br.com.server.domain.user.UserRepository;
 import br.com.server.domain.user.dto.UserCreate;
 import br.com.server.domain.user.dto.UserData;
 import br.com.server.domain.user.dto.UserUpdate;
+import br.com.server.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +18,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserController {
 
   @Autowired
-  private UserRepository userRepository;
+  private UserService userService;
 
   @PostMapping("/create")
   @Transactional
   public ResponseEntity<UserData> create(@RequestBody @Valid UserCreate data, UriComponentsBuilder uriBuilder) {
-    var user = new User(data);
-    userRepository.save(user);
-
+    var user = userService.create(data);
     var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
-
     return ResponseEntity.created(uri).body(new UserData(user));
   }
 
   @GetMapping("{id}")
   @SecurityRequirement(name = "bearer-key")
   public ResponseEntity<UserData> findById(@PathVariable Long id) {
-    var user = userRepository.getReferenceById(id);
-
+    var user = userService.findById(id);
     return ResponseEntity.ok(new UserData(user));
   }
 
@@ -44,9 +39,7 @@ public class UserController {
   @Transactional
   @SecurityRequirement(name = "bearer-key")
   public ResponseEntity<HttpStatusCode> update(@PathVariable Long id, @RequestBody @Valid UserUpdate data) {
-    var user = userRepository.getReferenceById(id);
-    user.update(data);
-
+    userService.update(id, data);
     return ResponseEntity.ok().build();
   }
 }
