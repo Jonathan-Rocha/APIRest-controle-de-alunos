@@ -3,6 +3,7 @@ package br.com.server.domain.student;
 import br.com.server.domain.format.ClassFormat;
 import br.com.server.domain.instrument.Instrument;
 import br.com.server.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +38,7 @@ public class Student {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties(value = {"enabled", "username", "authorities", "accountNonExpired", "credentialsNonExpired", "accountNonLocked"})
     private User user;
 
 }
